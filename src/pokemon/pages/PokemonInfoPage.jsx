@@ -29,7 +29,7 @@ export const PokemonInfoPage = () => {
       ) : (
         <div>
           <div>
-            {pokemonInfo.name} - order:{pokemonInfo.order} - weight:{pokemonInfo.weight}
+            {pokemonInfo.name} - order: {pokemonInfo.order} - weight: {pokemonInfo.weight}
           </div>
           <img src={pokemonInfo.imageUrl} alt={pokemonInfo.name} />
         </div>
