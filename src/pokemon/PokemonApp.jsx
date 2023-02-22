@@ -1,18 +1,23 @@
 import { useStore } from 'effector-react';
 import React, { useEffect } from 'react';
-import { $pokemonStore, decrementActualPage, getPokemonsFx, incrementActualPage, resetPokemons, startLoadingPokemons } from './store/pokemonStore';
+import { useNavigate } from 'react-router-dom';
+import { $pokemonStore, decrementActualPage, getPokemonsFx, incrementActualPage, resetPokemons, startLoadingPokemons } from '../store/pokemonStore';
 
 export const PokemonApp = () => {
   const pokemonState = useStore($pokemonStore);
   const { isLoading, pokemons: allPokemons, actualPage, pagesLoaded } = pokemonState;
   console.log(pokemonState);
 
-  // empezamos a obtener pokemons
+  const navigate = useNavigate();
+
+  // empezamos a obtener pokemons si no los tenemos
   useEffect(() => {
-    resetPokemons();
-    startLoadingPokemons();
-    getPokemonsFx();
-  }, []);
+    if (pagesLoaded === 0) {
+      //resetPokemons();
+      startLoadingPokemons();
+      getPokemonsFx();
+    }
+  }, [pagesLoaded]);
 
   const nextPokemons = () => {
     if (actualPage + 1 === pagesLoaded) {
@@ -31,10 +36,19 @@ export const PokemonApp = () => {
     decrementActualPage();
   };
 
+  const getPokemonInfo = (url) => {
+    // url es siermpre https:/pokeapi.co/api/v2/pokemon/NUMERO/
+    // necesitamos extraer NUMERO, que es lo que pasaremos com param
+    url = url.slice(0, url.length - 1);
+    url = url.substr(url.lastIndexOf('/') + 1);
+
+    navigate('/pokemon/info/' + url);
+  };
+
   return (
     <>
-      <h4>PokemonApp with slices</h4>
-      <hr />
+      <h4>PokemonApp with Effector</h4>
+
       {isLoading ? (
         <div>loading...</div>
       ) : (
@@ -44,7 +58,17 @@ export const PokemonApp = () => {
             {allPokemons.map((pokemon, index) => {
               const indI = actualPage * 10;
               const indF = actualPage * 10 + 9;
-              if (index >= indI && index <= indF) return <li key={pokemon.name}>{pokemon.name}</li>;
+              if (index >= indI && index <= indF)
+                return (
+                  <li
+                    onClick={() => {
+                      getPokemonInfo(pokemon.url);
+                    }}
+                    key={pokemon.name}
+                  >
+                    {pokemon.name}
+                  </li>
+                );
               else return '';
             })}
           </ul>

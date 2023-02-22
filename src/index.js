@@ -1,15 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { CounterApp } from './CounterApp';
+import { BrowserRouter } from 'react-router-dom';
+import { NavBar } from './components/NavBar';
 import './index.css';
-
-import { PokemonApp } from './PokemonApp';
+import { AppRouter } from './router/AppRouter';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <>
-    <CounterApp />
-    <hr />
-    <PokemonApp />
-  </>
+  <BrowserRouter>
+    <NavBar />
+    <AppRouter />
+  </BrowserRouter>
 );

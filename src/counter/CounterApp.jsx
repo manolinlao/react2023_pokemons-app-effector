@@ -1,8 +1,13 @@
 import { useStore } from 'effector-react';
-import { $counterStore, decrement, increment, resetCounter } from './store/counterStore';
+import { useEffect } from 'react';
+import { $counterStore, decrement, increment, resetCounter } from '../store/counterStore';
 
 export const CounterApp = () => {
   const value = useStore($counterStore);
+
+  useEffect(() => {
+    //resetCounter();
+  }, []);
   return (
     <>
       <h4>CounterApp</h4>
