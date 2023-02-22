@@ -1,25 +1,34 @@
+import { useStore } from 'effector-react';
 import React, { useEffect } from 'react';
+import { $pokemonStore, decrementActualPage, getPokemonsFx, incrementActualPage, resetPokemons, startLoadingPokemons } from './store/pokemonStore';
 
 export const PokemonApp = () => {
-  const isLoading = false;
-  const allPokemons = [];
-  const actualPage = 0;
-  const pagesLoaded = 0;
+  const pokemonState = useStore($pokemonStore);
+  const { isLoading, pokemons: allPokemons, actualPage, pagesLoaded } = pokemonState;
+  console.log(pokemonState);
 
   // empezamos a obtener pokemons
-  useEffect(() => {}, []);
+  useEffect(() => {
+    resetPokemons();
+    startLoadingPokemons();
+    getPokemonsFx();
+  }, []);
 
   const nextPokemons = () => {
     if (actualPage + 1 === pagesLoaded) {
       //dispatch(getPokemons(pagesLoaded));
+      startLoadingPokemons();
+      getPokemonsFx(pagesLoaded);
     } else {
       //dispatch(incrementActualPage());
+      incrementActualPage();
     }
   };
 
   const backPokemons = () => {
     if (actualPage === 0) return;
     //dispatch(decrementActualPage());
+    decrementActualPage();
   };
 
   return (
