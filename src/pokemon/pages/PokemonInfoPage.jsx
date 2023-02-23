@@ -17,7 +17,7 @@ export const PokemonInfoPage = () => {
         setPokemonInfo({ name: data.name, imageUrl: data.sprites.front_default, order: data.order, weight: data.weight });
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [pokemonNumber]);
 
   return (
     <div>

@@ -1,6 +1,7 @@
 import { useStore } from 'effector-react';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ProgressSpinner } from 'primereact/progressspinner';
 import { $pokemonStore, decrementActualPage, getPokemonsFx, incrementActualPage, resetPokemons, startLoadingPokemons } from '../store/pokemonStore';
 
 export const PokemonApp = () => {
@@ -50,7 +51,9 @@ export const PokemonApp = () => {
       <h4>PokemonApp with Effector</h4>
 
       {isLoading ? (
-        <div>loading...</div>
+        <div>
+          <ProgressSpinner style={{ width: '50px', height: '50px' }} strokeWidth='8' fill='var(--surface-ground)' animationDuration='.5s' />
+        </div>
       ) : (
         <div>
           <span>Page - {actualPage}</span>
